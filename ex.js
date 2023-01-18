@@ -30,38 +30,30 @@ app.listen(3000, () => {
 
 //HTTP POST Requests//
 app.post('/api/courses', (req, res) => {
-    let course;
     if (req.body.name.length <= 3) {
         res.status(404).send("Please input a course that is greater than 3 characters long");
-        return;
     }
-    if (req.body.name.length > 3){
-        course = {
-            id: course.length + 1,
+    else if (req.body.name.length > 3){
+        const course = {
+            id: courses.length + 1,
             name: req.body.name
         }
-        res.status(200).send("Course successfully added.");
-        console.log(course);
+        courses.push(course);
+        res.send(course);
     }
-    course.push(course);
-    res.send(course);
 });    
 
-//here we need the specific id of the course we want to update
 app.put('/api/courses/:id', (req,res)=>{
-    //Write the code in order to look up the course, if not existing return a 404
-            //otherwise 
-                    //update the course
-                    //return the updated course
+    let original = courses.indexOf(req.body.id -1);
+    if (original !== undefined) {
+        const course = {
+            id: req.body.id,
+            name: req.body.name
+        }
+        courses[req.body.id -1] = course;
+        res.send(course);
+    }
+    else if (original === undefined) {
+        res.status(404).send("ID does not exist");
+    }
 });
-    
-app.delete('/api/courses/:id', (req,res)=>{
-    //code the following logic
-    //look up the course by id
-        //return 404 if does not exist
-        //delete the course by index HINT: use the indexOf() and splice() methods
-        // return the response to the client the course that was deleted
-});
-
-app.delete('/api/courses/:id', (req,res)=>{
-})
