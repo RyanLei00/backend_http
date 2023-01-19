@@ -53,7 +53,27 @@ app.put('/api/courses/:id', (req,res)=>{
         courses[req.body.id -1] = course;
         res.send(course);
     }
-    else if (original === undefined) {
+    else {
         res.status(404).send("ID does not exist");
     }
 });
+
+app.delete('/api/courses/:id', (req, res) => {
+    original = courses[req.body.id - 1];
+    if (original !== undefined) {
+        courses.splice(courses.indexOf(original), 1);
+        res.send(original);
+    } else {
+        res.status(404).send("Course does not exist");
+    }
+})
+
+/*
+Different programs can communicate with each other by using backend HTTP requests. 
+These programs would relaying information to one another to update each other.
+Apps such as the music app would use these requests to allow the user to listen to 
+their music. The user can make a playlist by adding songs to an array by using post. 
+They can thensend a get request to listen to a song they chose. They could also delete
+a song from their playlist. They could also use the put request to replace a song in their
+playlist with a new song.
+*/
